@@ -1,0 +1,68 @@
+<div class="p-3 w-96" [ngClass]="{ 'cursor-not-allowed': upload }">
+  <label
+    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+    for="file_input"
+  >
+    Upload file
+  </label>
+  @if(upload){
+
+  <button
+    [disabled]="upload"
+    class="flex w-full gap-4 p-3 text-sm font-semibold text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-start dark:text-gray-200 focus:outline-none dark:bg-gray-700 dark:border-gray-600 disabled:cursor-not-allowed"
+  >
+    <span
+      class="block w-5 h-5 border-[3px] border-gray-300 rounded-full dark:border-white border-t-blue-700 dark:border-t-blue-700 animate-spin"
+    >
+    </span>
+
+    Uploading...
+  </button>
+  } @else {
+  <input
+    [disabled]="upload"
+    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 disabled:cursor-not-allowed dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+    id="file_input"
+    type="file"
+    (change)="onFileSelected($event)"
+  />
+  }
+</div>
+
+<div
+  class="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
+>
+  @for (file of uploadedFiles; track $index) {
+
+  <div
+    class="flex items-center justify-between p-3 bg-gray-200 rounded-md dark:bg-gray-700 sm:p-5 md:p-3 xl:p-5"
+  >
+    <div class="flex flex-col justify-center gap-5">
+      <img
+        class="w-full rounded-lg"
+        [src]="file.location"
+        [alt]="file"
+        width="150"
+      />
+
+      <div
+        class="flex items-center justify-between gap-3 sm:gap-5 md:gap-3 xl:gap-5"
+      >
+        <button
+          class="px-3 py-2 text-sm font-semibold text-white bg-red-500 rounded-lg w-fit dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300 dark:focus:ring-red-600"
+          (click)="removeFile($index)"
+        >
+          Remove
+        </button>
+        <button
+          (click)="downloadFile(file.location, file.filename)"
+          class="px-3 py-2 text-sm font-semibold text-white bg-blue-500 rounded-lg w-fit dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600"
+        >
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+
+  }
+</div>
